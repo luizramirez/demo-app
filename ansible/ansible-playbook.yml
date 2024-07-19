@@ -5,3 +5,4 @@
   roles:
   - setup
   - python-flesk
+  - monitoring
