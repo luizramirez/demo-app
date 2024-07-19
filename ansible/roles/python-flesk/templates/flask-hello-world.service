@@ -1,0 +1,14 @@
+[Unit]
+Description=flask-hello-world
+
+[Service]
+#ExecStart=/usr/local/bin/flask run --host=0.0.0.0 --port=80
+ExecStart=/usr/local/bin/flask run
+# Required on some systems
+WorkingDirectory=/var/www
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

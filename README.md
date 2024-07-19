@@ -2,10 +2,10 @@
 
 ## Pre-requisites:
 
-Terraform v1.14
-ansible
-AWS credentials
-SSH key-pair
+- Terraform v1.14
+- Ansible
+- AWS credentials
+- SSH key-pair
 
 ## Description
 

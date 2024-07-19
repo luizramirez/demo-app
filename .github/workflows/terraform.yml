@@ -1,0 +1,37 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  terraform:
+    name: "Terraform CI/CD"
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TERRAFORM_PRE_RUN: |
+        apt-get install -y --no-install-recommends ansible
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.0.1
+          terraform_wrapper: false
+      - name: Terraform Fmt
+        id: fmt
+        run: terraform fmt -check
+      - name: terraform init
+        id: init
+        run: terraform init
+      - name: Terraform validate
+        id: validate
+        run: terraform validate -no-color
+      - name: Terraform plan
+        id: plan
+        run: terraform plan -no-color

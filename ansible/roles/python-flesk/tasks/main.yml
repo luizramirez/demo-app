@@ -1,0 +1,33 @@
+---
+- name: Git checkout
+  ansible.builtin.git:
+    repo: 'https://github.com/mreschke/flask-hello-world.git'
+    dest: /var/www
+    version: "{{ branch }}"
+
+- name: install dependencies
+  pip:
+    requirements: /var/www/requirements.txt
+
+- name: configure systemctl
+  template:
+    src: flask-hello-world.service
+    dest: /etc/systemd/system/flask-hello-world.service
+
+- name: enable systemctl service
+  shell: systemctl enable flask-hello-world.service
+  become: true
+
+- name: systemctl reload
+  shell: systemctl daemon-reload
+  become: true
+
+- name: configure nginx
+  template:
+    src: flask.conf
+    dest: /etc/nginx/conf.d/flask.conf
+
+- name: enable systemctl service
+  shell: systemctl restart flask-hello-world.service nginx.service
+  become: true
+

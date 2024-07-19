@@ -1,0 +1,7 @@
+---
+- name: setup python app
+  hosts: all
+  become: yes
+  roles:
+  - setup
+  - python-flesk
